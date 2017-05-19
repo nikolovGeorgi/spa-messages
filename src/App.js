@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { HashRouter, Route, Link, IndexRoute, hashHistory} from 'react-router-dom';
+import { HashRouter, Route} from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
 
@@ -7,9 +7,6 @@ import Home from './components/home.jsx'
 import Messages from './components/messages.jsx'
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     return (
       <div className="App">
@@ -20,7 +17,9 @@ class App extends Component {
         <HashRouter path='/'>
           <div>
             <Route path='/home' component={Home}/>
-            <Route path='/messages' component={Messages}/>
+            <Route path='/messages' component={Messages}>
+              <Route path='/messages/:id' component={Messages}/>
+            </Route>
           </div>
         </HashRouter>
       </div>

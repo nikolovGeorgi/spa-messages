@@ -16,3 +16,8 @@
 ## Please DON'T use jQuery, and DO use React for the UI components.
 
 ## Don't spend any longer than 4 hours on the exercise
+
+
+### To use:
+  1. npm i
+  2. npm start

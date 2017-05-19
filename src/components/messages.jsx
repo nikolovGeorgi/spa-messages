@@ -19,6 +19,28 @@ class Messages extends Component {
     })
   }
 
+  // TODO
+  handleSubmit = (data) => {
+    if (data.status === 'ok') {
+      let posts = this.state.posts || [];
+      posts.push(data.object);
+      this.setState({posts})
+    } else {
+      console.log(data.message);
+    }
+  }
+
+  // TODO
+  handleDelete = (id) => {
+    // find the message in the array
+    let index = this.state.messages.findIndex(message => message.id === id)
+    // copy it over
+    let newMessages = this.state.messages.slice();
+    //delete the element
+    newMessages.splice(index, 1);
+    this.setState({messages: newMessages});
+  }
+
   render() {
     console.log('api: ', this.state.messages);
     return (
@@ -27,6 +49,7 @@ class Messages extends Component {
           return(
             <Main
               key={message.id}
+              id={message.id}
               text={message.text}
               created_at={message.created_at}
             />
