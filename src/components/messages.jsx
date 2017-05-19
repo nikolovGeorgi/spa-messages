@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import Moment from 'react-moment';
 
 class Messages extends Component {
-
+  constructor(props) {
+    super(props);
+  }
   handleClick = (e) => {
-    console.log(this.props.id);
     e.stopPropagation();
-    // this.props.handleDeletmessagee(this.props.id);
+    console.log('from messages the id is: ', this.props.id);
+    this.props.handleDeleteClick(this.props.id);
   }
 
   render (){

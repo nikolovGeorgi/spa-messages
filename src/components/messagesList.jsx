@@ -41,22 +41,27 @@ class MessagesList extends Component {
   //   this.setState({messages: newMessages});
   // }
 
-  async handleDeleteClick (tab) {
-    this.setState({tab})
+  handleDeleteClick = (id) => {
+    // find the message in the array
+    let index = this.state.messages.findIndex(e => e.id === id);
+    // copy it over
+    let newMessages = this.state.messages.slice();
+    //delete the element
+    newMessages.splice(index, 1);
+    this.setState({messages: newMessages});
   }
   render() {
+    const messagesResults = (this.state.messages).map(message =>
+       <Messages
+         key={message.id}
+         id={message.id}
+         text={message.text}
+         created_at={message.created_at}
+         handleDeleteClick={this.handleDeleteClick}
+         />);
     return (
       <main className="messages">
-        {(this.state.messages).map(function(message) {
-          return (
-            <Messages
-              key={message.id}
-              id={message.id}
-              text={message.text}
-              created_at={message.created_at}
-              />
-          );
-        })}
+        {messagesResults}
       </main>
     );
   }
