@@ -16,7 +16,7 @@ let api = {
   // UNFINISHED -> account for async and fix .then((data))
   getMessageById: (id) => {
     try {
-      const myUrlJson = 'https://georgi-tech-test.herokuapp.com/messages/';
+      const myUrlJson = `https://georgi-tech-test.herokuapp.com/messages/${id}`;
       return fetch(myUrlJson, {
         method: 'GET',
         headers : {

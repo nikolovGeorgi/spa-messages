@@ -4,7 +4,7 @@ import logo from './logo.svg';
 import './App.css';
 
 import Home from './components/home.jsx'
-import Messages from './components/messages.jsx'
+import MessagesList from './components/messagesList.jsx'
 
 class App extends Component {
   render() {
@@ -17,8 +17,8 @@ class App extends Component {
         <HashRouter path='/'>
           <div>
             <Route path='/home' component={Home}/>
-            <Route path='/messages' component={Messages}>
-              <Route path='/messages/:id' component={Messages}/>
+            <Route path='/messages' component={MessagesList}>
+              <Route path='/messages/:id' component={MessagesList}/>
             </Route>
           </div>
         </HashRouter>
