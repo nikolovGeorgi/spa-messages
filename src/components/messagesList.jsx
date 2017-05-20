@@ -26,7 +26,9 @@ class MessagesList extends Component {
     const data = await api.getMessages();
     const allMessages = [];
     for (let page of data) {
-      allMessages.push(page.results);
+      for (let i = 0; i < page.results.length; i++){
+        allMessages.push(page.results[i]);
+      }
     }
     this.setState({messages: allMessages});
   }
@@ -37,22 +39,21 @@ class MessagesList extends Component {
   }
 
   handleDeleteClick = async (id) => {
-    const temp = this.props.location.pathname.split('/messages/')[1];
     const index = this.state.messages.findIndex(e => e.id === id);
-    await api.deleteMessage(temp);
+    await api.deleteMessage(id);
     const newMessages = this.state.messages.slice();
     newMessages.splice(index, 1);
     this.setState({messages: newMessages});
   }
 
-  handleMessage = (text) => {
+  handleMessage = async (text) => {
     const dateToFormat = new Date();
     const newMessage = {
-      id: this.state.messages.length+1,
+      id: uuid.v1(),
       text,
       created_at: dateToFormat
     }
-    const temp = api.postMessage(newMessage);
+    const temp = await api.postMessage(newMessage);
     const messages = this.state.messages.concat(temp);
     this.setState({messages})
   }
@@ -61,15 +62,13 @@ class MessagesList extends Component {
     const temp = this.props.location.pathname.split('/messages/')[1];
     if (temp === undefined) {
       const messagesResults = (this.state.messages).map(message =>
-        (message).map(item =>
-          <Messages
-            key={uuid.v1()}
-            id={item.id}
-            text={item.text}
-            created_at={item.created_at}
-            handleDeleteClick={this.handleDeleteClick}
-          />
-        )
+        <Messages
+          key={message.id}
+          id={message.id}
+          text={message.text}
+          created_at={message.created_at}
+          handleDeleteClick={this.handleDeleteClick}
+        />
       );
       return (
         <main className="messages">
@@ -80,7 +79,7 @@ class MessagesList extends Component {
     } else {
       const messagesResults = (this.state.messages).map(message =>
         <Messages
-          key={uuid.v1()}
+          key={message.id}
           id={message.id}
           text={message.text}
           created_at={message.created_at}

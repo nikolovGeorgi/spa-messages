@@ -48,9 +48,7 @@ let api = {
         }
       })
       .then((res) => {
-        return res.json();
-      }).then((data) => {
-        return data;
+        return res;
       });
     }catch(error){
       console.error(error);
@@ -79,19 +77,27 @@ let api = {
   },
 
   postMessage: (message) => {
-    const myUrl = 'https://georgi-tech-test.herokuapp.com/messages/';
-    return fetch(myUrl, {
-      method: 'POST',
-      headers : {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        id: message.id,
-        text: message.text,
-        created_at: message.created_at
-      })
-    })
+    try{
+      const myUrl = 'https://georgi-tech-test.herokuapp.com/messages/';
+      return fetch(myUrl, {
+        method: 'POST',
+        headers : {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          id: message.id,
+          text: message.text,
+          created_at: message.created_at
+        })
+      }).then((res) => {
+        return res.json();
+      }).then((data) => {
+        return data;
+      });
+    } catch(error) {
+      console.error(error);
+    }
   }
 };
 
