@@ -1,7 +1,6 @@
 let api = {
   getMessages: () => {
     const myUrlApi = 'https://georgi-tech-test.herokuapp.com/messages/';
-    // const myUrlJson = 'https://georgi-tech-test.herokuapp.com/messages/?format=json';
     return fetch(myUrlApi, {
       method: 'GET',
       headers : {
@@ -28,17 +27,26 @@ let api = {
       return data;
     });
   },
-
-  // TODO
-  // UNFINISHED -> account for async and fix .then((data))
-  // get_track = async function(trackID) {
-  //   try {
-  //     const data = await this.api.getTracks([trackID]);
-  //     return data.body;
-  //   } catch(err) {
-  //     console.error(err);
-  //   }
-  // }
+  deleteMessage: (id) => {
+    try {
+      const myUrlJson = `https://georgi-tech-test.herokuapp.com/messages/${id}`;
+      return fetch(myUrlJson, {
+        method: 'DELETE',
+        headers : {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
+      })
+      .then((res) => {
+        return res.json();
+      }).then((data) => {
+        console.log(data);
+        return data;
+      });
+    }catch(error){
+      console.error(error);
+    }
+  },
   getMessageById: (id) => {
     console.log(id);
     try {
@@ -55,7 +63,6 @@ let api = {
       }).then((data) => {
         let temp = [];
         temp.push(data);
-        console.log(temp);
         return temp;
       });
     }catch(error){

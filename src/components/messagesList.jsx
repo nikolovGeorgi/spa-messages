@@ -27,24 +27,25 @@ class MessagesList extends Component {
   }
 
   getSingleMessage = async () => {
-    console.log(this.props.match.params.id);
-    let result = await api.getMessageById(this.props.location.pathname.split('/messages/')[1]);
+    const result = await api.getMessageById(this.props.location.pathname.split('/messages/')[1]);
     console.log(result);
     this.setState({messages: result})
   }
 
-  handleDeleteClick = (id) => {
+  handleDeleteClick = async (id) => {
+    const temp = this.props.location.pathname.split('/messages/')[1];
     // find the message in the array
-    let index = this.state.messages.findIndex(e => e.id === id);
+    const index = this.state.messages.findIndex(e => e.id === id);
+    await api.deleteMessage(temp);
     // copy the array over
-    let newMessages = this.state.messages.slice();
+    const newMessages = this.state.messages.slice();
     //delete the element
     newMessages.splice(index, 1);
     this.setState({messages: newMessages});
   }
 
   handleMessage = (text) => {
-    let dateToFormat = new Date();
+    const dateToFormat = new Date();
     const newMessage = {
       id: this.state.messages.length+1,
       text,
@@ -56,7 +57,6 @@ class MessagesList extends Component {
   }
 
   render() {
-    console.log(this.props.location.pathname.split('/messages/')[1]);
     console.log(this.props);
     const messagesResults = (this.state.messages).map(message =>
        <Messages
@@ -77,7 +77,4 @@ class MessagesList extends Component {
 
 }
 
-const Message = ({ match }) => {
-  return <h1>Hello {match.params.id}</h1>
-}
 export default MessagesList
