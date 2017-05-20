@@ -13,7 +13,12 @@ class MessagesList extends Component {
   }
 
   componentWillMount(){
-    this.getInitialData();
+    const temp = this.props.location.pathname.split('/messages/')[1];
+    if( temp === undefined) {
+      this.getInitialData();
+    } else {
+      this.getSingleMessage(temp);
+    }
   }
 
   getInitialData = async () => {
@@ -22,7 +27,8 @@ class MessagesList extends Component {
   }
 
   getSingleMessage = async () => {
-    let result = await api.getMessageById(this.props.match.params.id);
+    console.log(this.props.match.params.id);
+    let result = await api.getMessageById(this.props.location.pathname.split('/messages/')[1]);
     console.log(result);
     this.setState({messages: result})
   }
@@ -50,6 +56,8 @@ class MessagesList extends Component {
   }
 
   render() {
+    console.log(this.props.location.pathname.split('/messages/')[1]);
+    console.log(this.props);
     const messagesResults = (this.state.messages).map(message =>
        <Messages
          key={message.id}
@@ -69,4 +77,7 @@ class MessagesList extends Component {
 
 }
 
+const Message = ({ match }) => {
+  return <h1>Hello {match.params.id}</h1>
+}
 export default MessagesList

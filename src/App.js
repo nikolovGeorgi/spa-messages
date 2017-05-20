@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
 
@@ -16,13 +16,11 @@ class App extends Component {
           <h2>Powered by React</h2>
         </div>
         <Router>
-          <div>
+          <Switch>
             <Route path='/home' component={Home}/>
             <Route path='/test/:id' component={Test}/>
-            <Route path='/messages' component={MessagesList}>
-              <Route path='/messages/:id' component={MessagesList}/>
-            </Route>
-          </div>
+            <Route path='/messages' component={MessagesList}/>
+          </Switch>
         </Router>
       </div>
     );

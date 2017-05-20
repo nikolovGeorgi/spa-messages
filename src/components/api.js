@@ -50,7 +50,14 @@ let api = {
           'Accept': 'application/json'
         }
       })
-      .then((res) => {return res.json()});
+      .then((res) => {
+        return res.json();
+      }).then((data) => {
+        let temp = [];
+        temp.push(data);
+        console.log(temp);
+        return temp;
+      });
     }catch(error){
       console.error(error);
     }
