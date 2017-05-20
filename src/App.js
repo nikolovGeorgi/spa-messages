@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
 
-import Home from './components/home.jsx'
 import MessagesList from './components/messagesList.jsx'
 
 class App extends Component {
@@ -15,10 +14,10 @@ class App extends Component {
           <h2>Powered by React</h2>
         </div>
         <Router>
-          <Switch>
-            <Route path='/home' component={Home}/>
+          <div>
+            <Route path='/' component={MessagesList}/>
             <Route path='/messages' component={MessagesList}/>
-          </Switch>
+          </div>
         </Router>
       </div>
     );

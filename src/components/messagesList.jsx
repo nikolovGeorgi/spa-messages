@@ -4,6 +4,7 @@ import PostMessage from './postMessage.jsx';
 
 import api from './api.js';
 
+import uuid from 'uuid';
 class MessagesList extends Component {
   constructor(props) {
     super(props);
@@ -14,6 +15,7 @@ class MessagesList extends Component {
 
   componentWillMount(){
     const temp = this.props.location.pathname.split('/messages/')[1];
+    console.log(temp);
     if( temp === undefined) {
       this.getInitialData();
     } else {
@@ -23,7 +25,14 @@ class MessagesList extends Component {
 
   getInitialData = async () => {
     const data = await api.getMessages();
-    this.setState({messages: data.results});
+    console.log(data);
+    const allMessages = [];
+    for (let page of data) {
+      console.log(page);
+      allMessages.push(page.results);
+    }
+    console.log(allMessages);
+    this.setState({messages: allMessages});
   }
 
   getSingleMessage = async () => {
@@ -57,22 +66,42 @@ class MessagesList extends Component {
   }
 
   render() {
-    console.log(this.props);
-    const messagesResults = (this.state.messages).map(message =>
-       <Messages
-         key={message.id}
-         id={message.id}
-         text={message.text}
-         created_at={message.created_at}
-         handleDeleteClick={this.handleDeleteClick}
-         />);
-    return (
-      <main className="messages">
-        <PostMessage handleMessage={this.handleMessage} />
-        {messagesResults}
-        <h1>{this.props.match.params.id}</h1>
-      </main>
-    );
+    const temp = this.props.location.pathname.split('/messages/')[1];
+    if (temp === undefined) {
+      const messagesResults = (this.state.messages).map(message =>
+        (message).map(item =>
+          <Messages
+            key={uuid.v1()}
+            id={item.id}
+            text={item.text}
+            created_at={item.created_at}
+            handleDeleteClick={this.handleDeleteClick}
+          />
+        )
+      );
+      return (
+        <main className="messages">
+          <PostMessage handleMessage={this.handleMessage} />
+          {messagesResults}
+        </main>
+      );
+    } else {
+      const messagesResults = (this.state.messages).map(message =>
+        <Messages
+          key={uuid.v1()}
+          id={message.id}
+          text={message.text}
+          created_at={message.created_at}
+          handleDeleteClick={this.handleDeleteClick}
+        />
+      );
+      return (
+        <main className="messages">
+          <PostMessage handleMessage={this.handleMessage} />
+          {messagesResults}
+        </main>
+      );
+    }
   }
 
 }

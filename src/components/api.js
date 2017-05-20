@@ -3,28 +3,34 @@ let api = {
     const myUrlApi = 'https://georgi-tech-test.herokuapp.com/messages/';
     return fetch(myUrlApi, {
       method: 'GET',
-      headers : {
+      headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       }
     }).then((res) => {
       return res.json();
     }).then((data) => {
-      // const apiProms = [];
+      const apiProms = [];
       // pagesNumber needs to be fixed!
-      // let pagesNumber = Math.floor((data.count + 4) / 5);
-      // console.log(pagesNumber);
-      // for (let i = pagesNumber; i > 0; i--){
-      //   apiProms.push(fetch(myUrlApi + '?page=' + i))
-      // }
-      // Promise.all(apiProms)
-      //   .then(responses => {
-      //     const processResponse = [];
-      //     responses.map(response => {
-      //       return response;
-      //     })
-      //   });
-      return data;
+      let pagesNumber = Math.floor((data.count + 4) / 5);
+      for (let i = pagesNumber; i > 0; i--){
+        apiProms.push(fetch(myUrlApi + '?page=' + i, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          }
+        }).then((res) => {
+          return res.json();
+        }).then((data) => {
+          return data;
+        })
+
+      );}
+      return Promise.all(apiProms)
+        .then((res) => {
+          return res;
+        });
     });
   },
   deleteMessage: (id) => {
@@ -48,7 +54,6 @@ let api = {
     }
   },
   getMessageById: (id) => {
-    console.log(id);
     try {
       const myUrlJson = `https://georgi-tech-test.herokuapp.com/messages/${id}`;
       return fetch(myUrlJson, {
