@@ -5,19 +5,26 @@ import PostMessage from './postMessage.jsx';
 import api from './api.js';
 
 class MessagesList extends Component {
-
   constructor(props) {
     super(props);
     this.state= {
       messages: []
     };
   }
+
   componentWillMount(){
-    api.getMessages().then((res) => {
-      this.setState({
-        messages: res.results
-      })
-    })
+    this.getInitialData();
+  }
+
+  getInitialData = async () => {
+    const data = await api.getMessages();
+    this.setState({messages: data.results});
+  }
+
+  getSingleMessage = async () => {
+    let result = await api.getMessageById(this.props.match.params.id);
+    console.log(result);
+    this.setState({messages: result})
   }
 
   handleDeleteClick = (id) => {
@@ -38,6 +45,8 @@ class MessagesList extends Component {
       created_at: dateToFormat
     }
     const temp = api.postMessage(newMessage);
+    const messages = this.state.messages.concat(temp);
+    this.setState({messages})
   }
 
   render() {
@@ -53,6 +62,7 @@ class MessagesList extends Component {
       <main className="messages">
         <PostMessage handleMessage={this.handleMessage} />
         {messagesResults}
+        <h1>{this.props.match.params.id}</h1>
       </main>
     );
   }

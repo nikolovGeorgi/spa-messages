@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import Moment from 'react-moment';
 
 class Messages extends Component {
-  constructor(props) {
-    super(props);
-  }
   handleClick = (e) => {
     e.stopPropagation();
     console.log('from messages the id is: ', this.props.id);
