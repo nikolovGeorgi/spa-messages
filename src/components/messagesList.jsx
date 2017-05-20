@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-
 import Messages from './messages.jsx';
+import PostMessage from './postMessage.jsx';
+
 import api from './api.js';
 
 class MessagesList extends Component {
@@ -19,37 +20,26 @@ class MessagesList extends Component {
     })
   }
 
-  // TODO
-  handleSubmit = (data) => {
-    if (data.status === 'ok') {
-      let posts = this.state.posts || [];
-      posts.push(data.object);
-      this.setState({posts})
-    } else {
-      console.log(data.message);
-    }
-  }
-
-  // TODO <btn onClick={this.deleteHandler(i)}
-  // handleDelete = (id) => {
-  //   // find the message in the array
-  //   let index = this.state.messages.findIndex(e => e.id === id);
-  //   // copy it over
-  //   let newMessages = this.state.messages.slice();
-  //   //delete the element
-  //   newMessages.splice(index, 1);
-  //   this.setState({messages: newMessages});
-  // }
-
   handleDeleteClick = (id) => {
     // find the message in the array
     let index = this.state.messages.findIndex(e => e.id === id);
-    // copy it over
+    // copy the array over
     let newMessages = this.state.messages.slice();
     //delete the element
     newMessages.splice(index, 1);
     this.setState({messages: newMessages});
   }
+
+  handleMessage = (text) => {
+    let dateToFormat = new Date();
+    const newMessage = {
+      id: this.state.messages.length+1,
+      text,
+      created_at: dateToFormat
+    }
+    const temp = api.postMessage(newMessage);
+  }
+
   render() {
     const messagesResults = (this.state.messages).map(message =>
        <Messages
@@ -61,12 +51,12 @@ class MessagesList extends Component {
          />);
     return (
       <main className="messages">
+        <PostMessage handleMessage={this.handleMessage} />
         {messagesResults}
       </main>
     );
   }
 
 }
-
 
 export default MessagesList

@@ -33,17 +33,18 @@ let api = {
     }
   },
 
-  // TODO // check for the need of charset=UTF-8'
   postMessage: (message) => {
     const myUrl = 'https://georgi-tech-test.herokuapp.com/messages/';
     return fetch(myUrl, {
       method: 'POST',
       headers : {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+        'Content-Type': 'application/json',
         'Accept': 'application/json'
       },
       body: JSON.stringify({
-        text: message
+        id: message.id,
+        text: message.text,
+        created_at: message.created_at
       })
     })
   }
