@@ -12,7 +12,7 @@ class PostMessage extends Component {
   render(){
     return (
       <div>
-        <input className="chatbar-message"
+        <input className="newMessage"
           placeholder="Type a message and hit ENTER"
           type="text"
           onKeyPress={this.handleMessageInput.bind(this)}

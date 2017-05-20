@@ -15,7 +15,6 @@ class MessagesList extends Component {
 
   componentWillMount(){
     const temp = this.props.location.pathname.split('/messages/')[1];
-    console.log(temp);
     if( temp === undefined) {
       this.getInitialData();
     } else {
@@ -25,30 +24,23 @@ class MessagesList extends Component {
 
   getInitialData = async () => {
     const data = await api.getMessages();
-    console.log(data);
     const allMessages = [];
     for (let page of data) {
-      console.log(page);
       allMessages.push(page.results);
     }
-    console.log(allMessages);
     this.setState({messages: allMessages});
   }
 
   getSingleMessage = async () => {
     const result = await api.getMessageById(this.props.location.pathname.split('/messages/')[1]);
-    console.log(result);
     this.setState({messages: result})
   }
 
   handleDeleteClick = async (id) => {
     const temp = this.props.location.pathname.split('/messages/')[1];
-    // find the message in the array
     const index = this.state.messages.findIndex(e => e.id === id);
     await api.deleteMessage(temp);
-    // copy the array over
     const newMessages = this.state.messages.slice();
-    //delete the element
     newMessages.splice(index, 1);
     this.setState({messages: newMessages});
   }

@@ -4,7 +4,6 @@ import Moment from 'react-moment';
 class Messages extends Component {
   handleClick = (e) => {
     e.stopPropagation();
-    console.log('from messages the id is: ', this.props.id);
     this.props.handleDeleteClick(this.props.id);
   }
 

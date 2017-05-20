@@ -15,7 +15,6 @@ class App extends Component {
         </div>
         <Router>
           <div>
-            <Route path='/' component={MessagesList}/>
             <Route path='/messages' component={MessagesList}/>
           </div>
         </Router>

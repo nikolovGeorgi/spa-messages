@@ -1,37 +1,41 @@
 let api = {
   getMessages: () => {
-    const myUrlApi = 'https://georgi-tech-test.herokuapp.com/messages/';
-    return fetch(myUrlApi, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      }
-    }).then((res) => {
-      return res.json();
-    }).then((data) => {
-      const apiProms = [];
-      // pagesNumber needs to be fixed!
-      let pagesNumber = Math.floor((data.count + 4) / 5);
-      for (let i = pagesNumber; i > 0; i--){
-        apiProms.push(fetch(myUrlApi + '?page=' + i, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          }
-        }).then((res) => {
-          return res.json();
-        }).then((data) => {
-          return data;
-        })
+    try {
+      const myUrlApi = 'https://georgi-tech-test.herokuapp.com/messages/';
+      return fetch(myUrlApi, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
+      }).then((res) => {
+        return res.json();
+      }).then((data) => {
+        const apiProms = [];
+        // pagesNumber needs to be fixed!
+        let pagesNumber = Math.floor((data.count + 4) / 5);
+        for (let i = pagesNumber; i > 0; i--){
+          apiProms.push(fetch(myUrlApi + '?page=' + i, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            }
+          }).then((res) => {
+            return res.json();
+          }).then((data) => {
+            return data;
+          })
 
-      );}
-      return Promise.all(apiProms)
+        );}
+        return Promise.all(apiProms)
         .then((res) => {
           return res;
         });
-    });
+      });
+    } catch(error) {
+      console.error(error);
+    }
   },
   deleteMessage: (id) => {
     try {
@@ -46,7 +50,6 @@ let api = {
       .then((res) => {
         return res.json();
       }).then((data) => {
-        console.log(data);
         return data;
       });
     }catch(error){

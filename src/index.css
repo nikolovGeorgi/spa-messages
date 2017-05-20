@@ -3,3 +3,17 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+.newMessage {
+  width: 18.4em;
+  padding: 1.17em 2em;
+  color: #fff;
+  font-weight: 400;
+  font-size: initial;
+  border: 0;
+  outline: none;
+  background: #3c3c3c;
+}
+.newMessage:focus {
+  transition: all 1.4s ease;
+  background-color: #222;
+}
